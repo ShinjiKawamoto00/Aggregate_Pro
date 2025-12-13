@@ -1,0 +1,639 @@
+
+<style>
+table { 
+    border-collapse: collapse;
+    border: 3px solid black;  /* 外枠を二重線で太く */
+}
+table, th, td {
+  padding: 4px 8px;
+}
+th, td {
+  border: 1px solid black;  /* 内枠1px（後に指定してtableのborderを上書き） */
+}
+th {
+  border-bottom: 2px solid black;  /* thの下だけ2pxに上書き */
+}
+</style>
+<h2 id="表集計および転記ツール（集計くんpro-ver01）取扱説明書">表集計および転記ツール（集計くんPro Ver.0.1）取扱説明書</h2>
+<h3 id="目次">目次</h3>
+<ul>
+<li><a href="#0-用語">0. 用語</a></li>
+<li><a href="#1-概要">1. 概要</a></li>
+<li><a href="#2-動作環境">2. 動作環境</a><ul>
+<li><a href="#21-オペレーティングシステムについて">2.1 オペレーティングシステムについて</a></li>
+<li><a href="#22-ネットワーク環境について">2.2 ネットワーク環境について</a></li>
+</ul>
+</li>
+<li><a href="#3-フォルダー構成">3. フォルダー構成</a></li>
+<li><a href="#4-インストールと実行">4. インストールと実行</a><ul>
+<li><a href="#41-リリース物の配置">4.1 リリース物の配置</a></li>
+<li><a href="#42-実行">4.2 実行</a></li>
+</ul>
+</li>
+<li><a href="#5-ライセンスについて">5. ライセンスについて</a><ul>
+<li><a href="#51-評価版ライセンス">5.1 評価版ライセンス</a></li>
+<li><a href="#52-正式版ライセンス">5.2 正式版ライセンス</a></li>
+<li><a href="#53-正式版ライセンスの-pc-の移転">5.3 正式版ライセンスの PC の移転</a></li>
+</ul>
+</li>
+<li><a href="#6-集計処理・転記処理について">6. 集計処理・転記処理について</a><ul>
+<li><a href="#61-入力json">6.1 入力JSON</a><ul>
+<li><a href="#611-ファイル構成json">6.1.1 ファイル構成.json</a></li>
+<li><a href="#612-処理json">6.1.2 処理.json</a><ul>
+<li><a href="#612a-処理json-で使用できる定義キー一覧">6.1.2(A) 処理.json で使用できる定義キー一覧</a></li>
+<li><a href="#612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</a></li>
+<li><a href="#612c-処理json-の演算キーの設定に関するルール">6.1.2(C) 処理.json の演算キーの設定に関するルール</a></li>
+</ul>
+</li>
+<li><a href="#613-キーワードjson">6.1.3 キーワード.json</a></li>
+<li><a href="#614-キーワードの同義語json">6.1.4 キーワードの同義語.json</a></li>
+</ul>
+</li>
+<li><a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a></li>
+<li><a href="#63-キーワードjson-によるキーワード展開について">6.3 キーワード.json によるキーワード展開について</a><ul>
+<li><a href="#631-キーワードjson-で使用できるキー一覧">6.3.1 キーワード.json で使用できるキー一覧</a></li>
+<li><a href="#632-キーワードjson-の設定例">6.3.2 キーワード.json の設定例</a></li>
+<li><a href="#633-キーワード展開の機能について">6.3.3 キーワード展開の機能について</a></li>
+</ul>
+</li>
+<li><a href="#64-キーワードの同義語json-による同義語展開について">6.4 キーワードの同義語.json による同義語展開について</a><ul>
+<li><a href="#641-キーワードの同義語json-で使用できるキーの設定例">6.4.1 キーワードの同義語.json で使用できるキーの設定例</a></li>
+<li><a href="#642-同義語展開の機能について">6.4.2 同義語展開の機能について</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#7-集計くんpro-の実行例">7. 集計くんPro の実行例</a><ul>
+<li><a href="#71-集計・転記元データ">7.1 集計・転記元データ</a><ul>
+<li><a href="#711-行データで与えられたグループaおよびグループb">7.1.1 行データで与えられたグループAおよびグループB</a><ul>
+<li><a href="#711a-集計・転記元_行データxlsx-のグループaシート">7.1.1(A) 集計・転記元_行データ.xlsx のグループAシート</a></li>
+<li><a href="#711b-集計・転記元_行データxlsx-のグループbシート">7.1.1(B) 集計・転記元_行データ.xlsx のグループBシート</a></li>
+</ul>
+</li>
+<li><a href="#712-列データで与えられたグループc">7.1.2 列データで与えられたグループC</a></li>
+<li><a href="#713-集計先xlsx">7.1.3 集計先.xlsx</a></li>
+<li><a href="#714-転記先xlsx">7.1.4 転記先.xlsx</a></li>
+</ul>
+</li>
+<li><a href="#72-集計くんpro-による集計例の詳細">7.2 集計くんPro による集計例の詳細</a></li>
+<li><a href="#73-集計くんpro-による転記例の詳細">7.3 集計くんPro による転記例の詳細</a></li>
+</ul>
+</li>
+<li><a href="#8-更新履歴">8. 更新履歴</a></li>
+</ul>
+<h3 id="0-用語">0. 用語</h3>
+<ul>
+<li><strong>文字列</strong>: '文字列' や "ABC"のように、「'」（シングルクオーテーション）または「"」（ダブルクオーテーション）で囲んだ文字の並びです。</li>
+<li><strong>リスト型</strong>: ["ABC", '文字列', 123, True] のように、文字列、数字、真偽値などを「,」（カンマ）で区切って並べ、大括弧（角括弧）で囲みます。カンマで区切られた各項目は、リストの要素、または単に要素と呼びます。</li>
+<li><strong>辞書型</strong>: {"集計元ファイル": "集計・転記元1ファイル", "集計元シート": ["シート1", "シート2"], "集計元キーワード項目行": [107], "集計元列シフト": -1} のように、キー（key）と値（value）をペアでセットし、中括弧 { } で囲みます。本ツールで使用するキーは文字列のみであり、値は、文字列、数字、真偽値、およびそのリストが使用できます。</li>
+<li><strong>JSONファイル</strong>: リスト型や辞書型を文字列で表したファイルであり、軽くて読みやすいテキスト形式のデータの形であるため、データのやり取りによく使われるファイル形式です。</li>
+</ul>
+<h3 id="1-概要">1. 概要</h3>
+<p>本ツールは、エクセルで作成した複数ファイルや複数シートの表を、単一の表に集計したり、転記したりすることができるアプリケーションです。</p>
+<h3 id="2-動作環境">2. 動作環境</h3>
+<h4 id="21-オペレーティングシステムについて">2.1 オペレーティングシステムについて</h4>
+<p>集計くんPro Ver.0.1 は　Windows 専用プログラムであり、必要な動作環境は以下の通りです。</p>
+<ul>
+<li>
+<p>OS</p>
+<ul>
+<li>Windows 10（64bit）</li>
+<li>Windows 11（64bit）</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ 2017-2026 再頒布可能パッケージ</a></p>
+<ul>
+<li>上記リンクから最新のパッケージをダウンロードしてインストールしてください（Intel社 または AMD社 の CPU をお使いなら X64 を選択し、ARM社 の CPU をお使いなら ARM64 を選択してください）。</li>
+</ul>
+</li>
+<li>
+<p>Microsoft Excel のライセンス</p>
+</li>
+</ul>
+<h4 id="22-ネットワーク環境について">2.2 ネットワーク環境について</h4>
+<p>本ツールは環境変数からプロキシ設定を自動取得しますので、自宅（直通）・会社（プロキシ経由）の両環境で動作しますが、プロキシ経由の場合は以下の環境変数の設定が必要です。プロキシサーバ名やポート番号は会社により異なる場合がありますので貴社情報システム部門にお問い合わせください。</p>
+<p><strong>環境変数の設定</strong><br><br />
+Windows の検索で「環境変数」と入力し「環境変数を編集」を選択し、ユーザー環境変数に下記の例のように HTTP_PROXY、HTTPS_PROXY を追加してください。会社によって「変数値」が異なる場合がありますので注意してください。</p>
+<ul>
+<li>
+<p>変数名: HTTP_PROXY</p>
+<ul>
+<li>変数値: http://proxy.company.co.jp:8080</li>
+</ul>
+</li>
+<li>
+<p>変数名: HTTPS_PROXY</p>
+<ul>
+<li>変数値: http://proxy.company.co.jp:8080</li>
+</ul>
+</li>
+</ul>
+<p>プロキシサーバーへのアクセス認証が必要な場合には以下の通り、「ユーザー名」と「パスワード」の設定も必要になります。</p>
+<ul>
+<li>変数値: http://ユーザー名:パスワード@proxy.company.co.jp:8080</li>
+</ul>
+<p><strong>注意</strong><br />
+- プロキシサーバ名 <code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;">proxy.company.co.jp</code> は会社によって異なる場合があります<br />
+- ポート番号（8080）も会社により異なる場合があります<br />
+- <strong>プロキシサーバ名・ポート番号、認証ユーザー・パスワードの有無等の情報は、貴社情報システム部門にお問い合わせください</strong></p>
+<h3 id="3-フォルダー構成">3. フォルダー構成</h3>
+<ul>
+<li>集計くんPro フォルダの構成は以下の通りです。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">集計くんPro</span>
+<span style="color: #ABB2BF">├─ 集計くんPro_01.exe           # 実行ファイル</span>
+<span style="color: #ABB2BF">├─ README.html                  # 本取扱説明書</span>
+<span style="color: #ABB2BF">│  </span>
+<span style="color: #ABB2BF">├─ datasets                     # 実行に必要なJSONファイルを配置するフォルダです</span>
+<span style="color: #ABB2BF">│ ├─ 処理.json                  # 具体的な処理を指示する辞書や処理群のリストを記述するファイルです</span>
+<span style="color: #ABB2BF">│ ├─ ファイル構成.json          # エクセルファイルの配置場所を記述するファイルです</span>
+<span style="color: #ABB2BF">│ ├─ キーワード.json            # 処理の際に検索するキーワードのリストを記述するファイルです</span>
+<span style="color: #ABB2BF">│ └─ キーワードの同義語.json    # キーワードと同じ意味を持つ同義語のリストを記述するファイルです</span>
+<span style="color: #ABB2BF">│   </span>
+<span style="color: #ABB2BF">├─ licenses                     # 実行に必要なライセンスファイルを配置するフォルダです（なければ集計くんPro実行時に作成されます）</span>
+<span style="color: #ABB2BF">│ ├─ license.json.enc           # 暗号化されたライセンスファイルです。失くさないよう注意してください</span>
+<span style="color: #ABB2BF">│ ├─ license.md                 # ライセンス情報を記述したファイルです（英語版）</span>
+<span style="color: #ABB2BF">│ └─ ライセンス.md              # ライセンス情報を記述したファイルです（日本語版）</span>
+<span style="color: #ABB2BF">│</span>
+<span style="color: #ABB2BF">├─ logs                         # 実行ログが出力されます（なければ集計くんPro実行時に作成されます。7日以前のログは自動削除されます）</span>
+<span style="color: #ABB2BF">└─ test_data                    # 本取扱説明書で解説するデモ用のエクセルファイルを配置しているフォルダです</span>
+</code></pre></div></li>
+</ul>
+<h3 id="4-インストールと実行">4. インストールと実行</h3>
+<h4 id="41-リリース物の配置">4.1 リリース物の配置</h4>
+<p>集計くんPro フォルダーを Windows PC 上の任意の場所に配置してください。</p>
+<h4 id="42-実行">4.2 実行</h4>
+<p>Windows PowerShell で集計くんProフォルダーに移動して下記コマンドで実行してください。なお、集計くんPro を実行する際、集計先ファイルや転記先ファイルをエクセルで開いていると動作は保証されません。必ずこれらのファイルを閉じてから実行してください。</p>
+<ul>
+<li>処理.json を使用して起動する場合（処理.json には集計処理後に転記処理を実行するよう設定しています）<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
+</code></pre></div></li>
+<li>個別の処理ファイル（この場合は集計処理.json）を使用して起動する場合<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe -pf 集計処理.json</span>
+</code></pre></div></li>
+<li>「処理.json を使用して起動する場合」は集計くんPro_01.exe をダブルクリックすることにより起動できますが、終了後に窓が閉じますのでご注意ください。</li>
+<li>集計くんPro_集計.bat や 集計くんPro_転記.bat などのバッチファイルをダブルクリックすれば、それぞれ集計処理や転記処理のみ実行し、終了後に窓が閉じる際に何かのキーを押すまで待ってくれます。</li>
+<li>これらのバッチファイルを参考にして処理ファイルを指定したバッチファイルを作成できますが、文字化けしないようバッチファイルは必ず Shift JIS で保存してください。</li>
+</ul>
+<h3 id="5-ライセンスについて">5. ライセンスについて</h3>
+<h4 id="51-評価版ライセンス">5.1 評価版ライセンス</h4>
+<ul>
+<li>
+<p>集計くんProを始めてご使用になる場合、集計くんProを起動すると、初期登録が行われ、1か月の評価期間が設定されます。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 が起動されました。</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 の初期設定を行っています。</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 は 2025年12月22日まで使用可能です。</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>その後、起動の度に正式版で使用するか、評価版のまま使用かを問われますので、評価版のまま使用する場合は'n'を入力してご使用ください。</p>
+</li>
+<li>ライセンスキーは licenses フォルダに暗号化して保存されますが、評価期間中にこのフォルダの情報を失うと、お使いのPCでの起動はできなくなりますのでご注意ください。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 が起動されました。</span>
+<span style="color: #ABB2BF">ライセンスキーを入力して正式版を起動しますか(y)、評価版のまま使用しますか(n) ? (y/n):</span>
+</code></pre></div></li>
+</ul>
+<h4 id="52-正式版ライセンス">5.2 正式版ライセンス</h4>
+<ul>
+<li>正式版として継続使用する場合には <a href="https://payment.neoluxinc.com/">集計くんProライセンスキーの管理（準備中）</a> でライセンスキーをご購入頂き、「ライセンスキーを入力して正式版を起動しますか(y)」で'y'を入力し、ライセンスキーを入力してご使用ください。</li>
+<li>一度ライセンスキーを入力すると、起動時にそのライセンスキーに応じた使用期限が表示されるようになります。以下は無期限のライセンスをご購入されたケースの例です。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 が起動されました。</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 は無期限で使用可能です。</span>
+</code></pre></div></li>
+</ul>
+<h4 id="53-正式版ライセンスの-pc-の移転">5.3 正式版ライセンスの PC の移転</h4>
+<ul>
+<li>正式版ライセンスで PC を移転する場合は、集計くんPro フォルダごと移転先の PC にコピーし、集計くんProを起動するだけで以下のように簡単に移転できます。以前使用していた PC でも、新規の PC でも、集計くんPro フォルダごとコピーすれば移転可能ですが、以前使用していたPCのフォルダにある集計くんPro は起動できなくなります。また、最大移転回数は30回ですので、共用等による頻繁な移転はお避け下さい。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 が起動されました。</span>
+<span style="color: #ABB2BF">PCが変更になりましたのでライセンス情報を更新します。以前のPCでは集計くんPro バージョン0.1が使用できなくなりますがライセンス情報を更新してよろしいですか? (y/n): y</span>
+<span style="color: #ABB2BF">&#39;y&#39;を選択しましたので処理を継続します。</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 は無期限で使用可能です。</span>
+</code></pre></div></li>
+</ul>
+<h3 id="6-集計処理・転記処理について">6. 集計処理・転記処理について</h3>
+<ul>
+<li>
+<p>集計処理とは、エクセルの複数ファイルや複数シートの複数行のセルや複数列のセルに記載された数値に、指定された演算を施し、1枚の集計シートの複数行のセル、あるいは複数列のセル、あるいは単一セルにまとめる処理です。</p>
+</li>
+<li>
+<p>転記処理とは、エクセルの複数ファイルや複数シートの複数行の複数のセルに記載された文字列や数値を、1枚の転記シートの複数行の複数のセルに転写する処理です。</p>
+</li>
+</ul>
+<h4 id="61-入力json">6.1 入力JSON</h4>
+<p><a href="#3-フォルダー構成">3. フォルダー構成</a> に記述の通り、入力JSON は datasets フォルダ配下に設置し、ファイル場所の指定、処理の指定などを行います。</p>
+<h5 id="611-ファイル構成json">6.1.1 ファイル構成.json</h5>
+<ul>
+<li>「集計元」および「集計先」のエクセルファイルの配置場所を、集計くんPro_01.exe を配置した場所からの相対パスまたは絶対パスで記述する辞書型の JSON ファイルです。<ul>
+<li>キー（key）: 処理.json で呼び出す任意のエクセルファイル名称を文字列で指定します。</li>
+<li>値（value）: エクセルファイルの配置場所を文字列のリスト型で記述します。フォルダ名やファイル名の区切り文字としては"/"（スラッシュ）または"\\"（バックスラッシュ2本）を使用することができます。下記の「集計先ファイル」や「転記先ファイル」のように、区切り文字無しで指定することもできます。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">{</span>
+<span style="color: #ABB2BF">  </span><span style="color: #E06C75">&quot;集計・転記元_行データファイル&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;test_data/集計・転記元_行データ.xlsx&quot;</span>
+<span style="color: #ABB2BF">  ],</span>
+<span style="color: #ABB2BF">  </span><span style="color: #E06C75">&quot;集計・転記元_列データファイル&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;test_data\\集計・転記元_列データ.xlsx&quot;</span>
+<span style="color: #ABB2BF">  ],</span>
+<span style="color: #ABB2BF">  </span><span style="color: #E06C75">&quot;集計先ファイル&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;test_data&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;集計先.xlsx&quot;</span>
+<span style="color: #ABB2BF">  ],</span>
+<span style="color: #ABB2BF">  </span><span style="color: #E06C75">&quot;転記先ファイル&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;test_data&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">    </span><span style="color: #98C379">&quot;転記先.xlsx&quot;</span>
+<span style="color: #ABB2BF">  ]</span>
+<span style="color: #ABB2BF">}</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h5 id="612-処理json">6.1.2 処理.json</h5>
+<p>処理.json は、集計処理や転記処理の処理内容を辞書型で記述したファイルであり、以下の要領で作成します。</p>
+<ul>
+<li>1つの集計処理や転記処理が任意の名称の辞書型の1つのキー（key）に該当し、その処理内容は以下の情報を持つ辞書型で指定します。<ul>
+<li>「集計元」のファイル、シート、行、列を指定することにより処理するセルを特定する情報</li>
+<li>処理の内容を指定する情報</li>
+<li>「集計先」のファイル、シート、行、列を指定することにより書き込むセルを特定する情報</li>
+</ul>
+</li>
+<li>1つの集計処理や転記処理の処理内容は <a href="#612a-処理json-で使用できる定義キー一覧">6.1.2(A) 処理.json で使用できる定義キー一覧</a> から選択します。</li>
+<li>処理内容の辞書型の値（value）はリスト型で与えるが基本です。値は数値や文字列にも対応できるようにもなっていますが、リスト型で与えるのが無難です（例えば、["A", "B"] は "A,B" で与えられるケースもあります。）</li>
+<li>大規模な処理を指定する場合には、複数の処理の JSON ファイル名を記載したリスト型の「処理.json」にすることもできます。</li>
+</ul>
+<h5 id="612a-処理json-で使用できる定義キー一覧">6.1.2(A) 処理.json で使用できる定義キー一覧</h5>
+<p>処理.json で使用できるキー（key）は以下の通り定義されています。集計の場合だけではなく転記の場合であっても"集計元"、"集計先"という用語を使用します。</p>
+<ul>
+<li>集計および転記で使用できる定義キー一覧</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">定義キー名称</th>
+<th>値（value）の内容</th>
+<th style="text-align: center;">デフォルト/必須の別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">"集計元ファイル"<br>"集計先ファイル"</td>
+<td>ファイル構成.json で指定したエクセルファイル名称のキー（key）を指定します。<br><a href="#612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元シート"<br>"集計先シート"</td>
+<td>エクセルファイルのシート名称を指定します。（スペースも含め正確に記述のこと）<br><a href="#612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"演算"</td>
+<td>処理内容を指定します。 ["転記"]以外は全て集計処理で使用します。<br><a href="#612c-処理json-の演算キーの設定に関するルール">6.1.2(C) 処理.json の演算キーの設定に関するルール</a> を参照してください。</td>
+<td style="text-align: center;">["+"]</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元開始行" <br> "集計先開始行"</td>
+<td>文字列検索の対象となるエクセルシートの開始行を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">1行</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元終了行"<br>"集計先終了行"</td>
+<td>文字列検索の対象となるエクセルシートの終了行を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">最終行</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元開始列" <br> "集計先開始列"</td>
+<td>文字列検索の対象となるエクセルシートの開始列を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">A列</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元終了列"<br>"集計先終了列"</td>
+<td>文字列検索の対象となるエクセルシートの終了列を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">最終列</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元行"<br>"集計先行"</td>
+<td>エクセルシートの行を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元列"<br>"集計先列"</td>
+<td>エクセルシートの列を特定する検索文字列または文字列リストを指定します。<br>詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元行シフト"<br>"集計先行シフト"</td>
+<td>検索した行からのズレを整数または単一要素の整数リストで指定します。正の値で下にシフトします。</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元列シフト"<br>"集計先列シフト"</td>
+<td>検索した列からのズレを整数または単一要素の整数リストで指定します。正の値で右にシフトします。</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元キーワード項目行"<br>"集計元キーワード項目列"<br>"集計先キーワード項目行"<br>"集計先キーワード項目列"</td>
+<td>キーワード.json で指定した全処理に共通する "キーワード項目行" と "キーワード項目列" を、この処理に限定して修正します。<br>指定方法は "キーワード項目行"、"キーワード項目列" に同じです。<br>詳細は、 <a href="#631-キーワードjson-で使用できるキー一覧">6.3.1 キーワード.json で使用できるキー一覧</a> を参照してください。</td>
+<td style="text-align: center;">"キーワード項目行"<br>"キーワード項目列"<br>の指定値</td>
+</tr>
+<tr>
+<td style="text-align: center;">"集計元不明セルを無視"</td>
+<td>集計元や転記元のシートで指定セルが一つも見つからなかった場合に処理を継続するかどうかのフラグを指定します。<br>true/false または [true]/[false]で指定し、 true であれば処理を継続します。<br>転記処理限定で、データがある場合にのみ処理するという指定には便利ですが、集計処理の場合は指定しない方が無難です。</td>
+<td style="text-align: center;">false</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>転記のみで使用できる定義キー一覧 - "演算": ["転記"] の場合に転記処理になります</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">定義キー名称</th>
+<th>値（value）の内容</th>
+<th style="text-align: center;">デフォルト/必須の別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">定義キー以外の任意の文字列</td>
+<td>ファイルやシートに応じて定型の文字列を記入する場合に指定します。この定義キー名称は"転記元列リスト"で引用し、対応する"転記先列リスト"のセルに記述されますので、ファイルやシートの数と同じ要素数である必要があります。<br>ファイルやシートの指定方法は、<a href="#612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</a> を参照してください。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+<tr>
+<td style="text-align: center;">"転記元列リスト"</td>
+<td>転記元の列を特定するため、"転記先列リスト"と同数の検索文字列リストで指定します。「定義キー以外の任意の文字列」で設定した定型の転記項目を指定する場合には、"key:"で始まる文字列を使用し、例えば ["B列", "資産名称", "取得価格", "key:個別転記項目1", "key:個別転記項目2"] のように指定します。<br>検索文字列の詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"転記先列リスト"</td>
+<td>転記先の列を特定するため、"転記元列リスト"と同数の検索文字列リストで指定します。<br>検索文字列の詳細は <a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> を参照してください。</td>
+<td style="text-align: center;">必須</td>
+</tr>
+<tr>
+<td style="text-align: center;">"転記元ファイル間に空白行"</td>
+<td>複数のファイルを扱う場合、そのファイル間に空白行を1行入れる場合に指定します。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+<tr>
+<td style="text-align: center;">"転記元シート間に空白行"</td>
+<td>1つのファイルで複数のシートを設定する場合、シート間に空白行を1行入れる場合に指定します。ただし、1つのファイルに複数のシートを設定する場合に限ります。ファイル数とシート数を同じに設定する場合は "転記元ファイル間に空白行" を使用してください。<br>ファイルやシートの指定方法は、<a href="#612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</a> を参照してください。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+<tr>
+<td style="text-align: center;">"転記先最大行"</td>
+<td>この行番号を超えて"転記先"のシートに転記する場合、転記前に改行を1行挿入するため、整数または単一要素の整数リストで指定します。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+<tr>
+<td style="text-align: center;">"セル内改行の処理"</td>
+<td>集計元セルに改行が含まれている場合、["改行のみ削除"]または["改行以降を削除"]のどちらかを指定します。指定なしの場合はそのまま転記されます。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+</tbody>
+</table>
+<h5 id="612b-処理json-のファイルキーとシートキーの設定に関するルール">6.1.2(B) 処理.json のファイルキーとシートキーの設定に関するルール</h5>
+<ul>
+<li>"集計元"のファイルやシートは複数要素の文字列リストで指定できますが、"集計先"のファイルやシートは単一要素の文字列リストで指定します。</li>
+<li>"集計元ファイル"と"集計元シート"の複数要素の指定方法は以下から選択できます。<ul>
+<li>複数ファイルにある同一名の単一シート: 複数のファイル名称を要素とする文字列リストと、単一シート名称を要素とする文字列リストで指定します。</li>
+<li>単一ファイルにある名称が異なる複数シート: 単一ファイル名称を要素とする文字列リストと、複数のシート名称を要素とする文字列リストで指定します。</li>
+<li>複数ファイルにあるそれぞれのシート: 複数のファイル名称を要素とする文字列リストと、それぞれのシート名称を要素とする文字列リストで指定します。この場合はファイル数とシート数を同じにする必要があります。</li>
+</ul>
+</li>
+</ul>
+<h5 id="612c-処理json-の演算キーの設定に関するルール">6.1.2(C) 処理.json の演算キーの設定に関するルール</h5>
+<ul>
+<li>"演算"は以下の中から選択できます。ここで、該当セルとは"集計元"の全てのシートの全てのセルを指します。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;+&quot;</span><span style="color: #ABB2BF">]: 該当セルを加算（デフォルト）</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;-&quot;</span><span style="color: #ABB2BF">]: 該当セルを減算</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;転記&quot;</span><span style="color: #ABB2BF">]: 該当セルを転記</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;MEAN&quot;</span><span style="color: #ABB2BF">]: 該当セルを平均する</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;RMSE&quot;</span><span style="color: #ABB2BF">]: 該当セルの</span><span style="color: #D19A66">2</span><span style="color: #ABB2BF">乗和を取る</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;+&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;1/1000四捨五入&quot;</span><span style="color: #ABB2BF">]: 該当セルを加算し、最後に </span><span style="color: #D19A66">1</span><span style="color: #ABB2BF">/</span><span style="color: #D19A66">1000</span><span style="color: #ABB2BF"> して四捨五入する</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;+&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;1/1000切り捨て&quot;</span><span style="color: #ABB2BF">]: 該当セルを加算し、最後に </span><span style="color: #D19A66">1</span><span style="color: #ABB2BF">/</span><span style="color: #D19A66">1000</span><span style="color: #ABB2BF"> して切り捨てる</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;-&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;1/1000四捨五入&quot;</span><span style="color: #ABB2BF">]: 該当セルを減算し、最後に </span><span style="color: #D19A66">1</span><span style="color: #ABB2BF">/</span><span style="color: #D19A66">1000</span><span style="color: #ABB2BF"> して四捨五入する</span>
+<span style="color: #ABB2BF">    [</span><span style="color: #98C379">&quot;-&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;1/1000切り捨て&quot;</span><span style="color: #ABB2BF">]: 該当セルを減算し、最後に </span><span style="color: #D19A66">1</span><span style="color: #ABB2BF">/</span><span style="color: #D19A66">1000</span><span style="color: #ABB2BF"> して切り捨てる</span>
+</code></pre></div></li>
+</ul>
+<h4 id="613-キーワードjson">6.1.3 キーワード.json</h4>
+<p>キーワード.jsonは、処理.json でセルを特定する際、複数のセルを一度に設定したい場合の「キーワード展開」に使用します。キーワード.json の記述方法やキーワード展開に関する詳細は、<a href="#63-キーワードjson-によるキーワード展開について">6.3 キーワード.json によるキーワード展開について</a> をご覧ください。</p>
+<h4 id="614-キーワードの同義語json">6.1.4 キーワードの同義語.json</h4>
+<p>キーワードの同義語.jsonは、処理.json でセルを特定する際、複数のセルを一度に設定できる「キーワード展開」に加え、多様なエクセルのデータ保持方法に対応できるようキーワードの「同義語展開」を設定するファイルです。キーワードの同義語.json の記述方法や同義語展開に関する詳細は、<a href="#64-キーワードの同義語json-による同義語展開について">6.4 キーワードの同義語.json による同義語展開について</a> をご覧ください。</p>
+<h4 id="62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</h4>
+<p>集計くんPro では、以下の通りエクセルシートの多様な「行」と「列」の特定方法を提供します。<br />
+<a href="#612-処理json">6.1.2 処理.json</a> に示した "集計元"シートや"集計先"シートの "開始行"、"終了行"、"開始列"、"終了列"、"行"、"列" は、下記の「行」と「列」の検索のルールが適用されます。</p>
+<ul>
+<li>「行」と「列」の検索ルール<ul>
+<li>セルの値は、半角・全角の空白を除外し、全角英数字を半角文字列に変換して検索します。</li>
+<li>文字列のリストで複数の条件を指定できます。また、頭に"^"を付加することにより含まない条件も指定することができます。<ul>
+<li>例えば、["開発グループ", "修繕費", "^固定資産"] という行や列の検索リストであれば、"開発グループ"と"修繕費"という両方の文字列を含み、かつ"固定資産"という文字列を含まない行や列を検索します。</li>
+</ul>
+</li>
+<li>文字列は部分一致で検索されますので、「ABC修繕費」というセルがあれば、これは「修繕費」に一致します。</li>
+<li>単一要素の文字列リストであり、最後の文字が"行"であれば行番号を直接指定し、最後の文字が"列"であれば列記号を直接指定します。</li>
+</ul>
+</li>
+</ul>
+<h4 id="63-キーワードjson-によるキーワード展開について">6.3 キーワード.json によるキーワード展開について</h4>
+<p><a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> によりセルを特定することができますが、複数のセルを一度に特定したい場合には「キーワード展開」を使用すると便利です。</p>
+<h5 id="631-キーワードjson-で使用できるキー一覧">6.3.1 キーワード.json で使用できるキー一覧</h5>
+<ul>
+<li>キーワード.json で使用できる定義キー一覧</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">定義キー名称</th>
+<th>値（value）の内容</th>
+<th style="text-align: center;">デフォルト/必須の別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">"キーワード項目行"</td>
+<td>キーワード展開による検索が有効な行番号範囲を整数のリスト型で指定します。</td>
+<td style="text-align: center;">全行</td>
+</tr>
+<tr>
+<td style="text-align: center;">キーワード項目列"</td>
+<td>キーワード展開による検索が有効な列記号範囲を文字列のリスト型で指定します。</td>
+<td style="text-align: center;">全列</td>
+</tr>
+<tr>
+<td style="text-align: center;">任意のキーワード</td>
+<td>展開するキーワードの内容を文字列のリスト型で指定します。このキー名称は、処理.json の「行」や「列」を検索するための文字列として使用します。キー名称としては、任意の文字列が使用できますが、わかりやすくするため、"月_キーワード"のように"_キーワード"を付加することをお勧めします。</td>
+<td style="text-align: center;">指定なし</td>
+</tr>
+</tbody>
+</table>
+<h5 id="632-キーワードjson-の設定例">6.3.2 キーワード.json の設定例</h5>
+<ul>
+<li>"キーワード項目行"として 1行～3行、"キーワード項目列"として A列～C列、"月_キーワード"として"4月"から翌年の"3月"を設定する場合には以下のように設定します。そして、"月_キーワード"という文字列は、処理.json の「行」や「列」を検索するための文字列として使用します。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">{</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;キーワード項目行&quot;</span><span style="color: #ABB2BF">:[</span><span style="color: #D19A66">1</span><span style="color: #ABB2BF">, </span><span style="color: #D19A66">2</span><span style="color: #ABB2BF">, </span><span style="color: #D19A66">3</span><span style="color: #ABB2BF">],</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;キーワード項目列&quot;</span><span style="color: #ABB2BF">:[</span><span style="color: #98C379">&quot;A&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;B&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;C&quot;</span><span style="color: #ABB2BF">],</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;月_キーワード&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;4月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;5月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;6月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;7月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;8月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;9月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;10月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;11月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;12月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;1月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;2月&quot;</span><span style="color: #ABB2BF">,</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;3月&quot;</span>
+<span style="color: #ABB2BF">    ]</span>
+<span style="color: #ABB2BF">}</span>
+</code></pre></div></li>
+</ul>
+<h5 id="633-キーワード展開の機能について">6.3.3 キーワード展開の機能について</h5>
+<p>前項で指定した"月_キーワード"を 処理.json で「行」と「列」の検索に使用すると、下記のように機能します。</p>
+<ul>
+<li>行検索では、"キーワード項目列"（A列～C列）から、キーワード展開された文字列（"4月"から翌年の"3月"）を含む全ての行を部分一致で探し出します。この際、処理.json で指定した "集計元" や "集計先" の "開始行" や "終了行" の指定により、検索する行の範囲を制約することができます。</li>
+<li>列検索では、"キーワード項目行"（1行～3行）にあるキーワード展開された文字列（"4月"から翌年の"3月"）を含む全ての列を部分一致で探し出します。この際、処理.json で指定した "集計元" や "集計先" の "開始列" や "終了列" の指定により、検索する列の範囲を制約することができます。</li>
+</ul>
+<p>なお、"キーワード項目行"と"キーワード項目列"を指定しない場合は、全行・全列が検索対象になり、予想外のセルを検索する可能性がありますので、指定することをお勧めします。</p>
+<h4 id="64-キーワードの同義語json-による同義語展開について">6.4 キーワードの同義語.json による同義語展開について</h4>
+<p><a href="#63-キーワードjson-によるキーワード展開について">6.3 キーワード.json によるキーワード展開について</a> により、複数のセルを一度に特定することができますが、多様なエクセルのデータ保持方法に対応できるようにするのがキーワードの「同義語展開」です。</p>
+<h5 id="641-キーワードの同義語json-で使用できるキーの設定例">6.4.1 キーワードの同義語.json で使用できるキーの設定例</h5>
+<ul>
+<li>キーワード.json 辞書の値（value）が、キーワードの同義語.json のキー（key）になります。例えば、<a href="#632-キーワードjson-の設定例">6.3.2 キーワード.json の設定例</a> に示した "月_キーワード" の値（"4月"から翌年の"3月"）を同義語展開する場合には、キーワードの同義語.json で以下のように記述します。</li>
+</ul>
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">{</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;4月&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;4&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;4.0&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;4月度&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;4月予算&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;4月\n（当初予算）&quot;</span>
+<span style="color: #ABB2BF">    ],</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;5月&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;5&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;5.0&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;5月度&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;5月予算&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;5月\n（当初予算）&quot;</span>
+<span style="color: #ABB2BF">    ],</span>
+
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;2月&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;2&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;2.0&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;2月度&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;2月予算&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;2月\n（当初予算）&quot;</span>
+<span style="color: #ABB2BF">    ],</span>
+<span style="color: #ABB2BF">    </span><span style="color: #E06C75">&quot;3月&quot;</span><span style="color: #ABB2BF">: [</span>
+<span style="color: #ABB2BF">        </span><span style="color: #98C379">&quot;3&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;3.0&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;3月見込&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;3月度&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;3月予算&quot;</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&quot;3月\n（当初予算）&quot;</span>
+<span style="color: #ABB2BF">    ],</span>
+<span style="color: #ABB2BF">}</span>
+</code></pre></div>
+<h5 id="642-同義語展開の機能について">6.4.2 同義語展開の機能について</h5>
+<p>仮に、エクセルの表示画面上で"4月"や"4月度"と表示されていたとしても、内部では数式で処理された結果数字の "4" や "4.0" となっているケースもありますし、部署が違うと "4月予算" や 改行（"\n"）を使って"4月\n（当初予算）" というセルの値になっているケースもありますので、以下の点に注意しながらキーワードの同義語.json を設定してください。</p>
+<ul>
+<li>キーワードの同義語.json のキー自体も同義語の文字列に追加され、「完全一致」で検索が実施されます。完全一致の検索にする理由は、短い同義語が誤って複雑な文字列と一致するのを防ぐためです。例えば、部分一致であれば、"1"は"11"や"12"とも一致してしまうためです。</li>
+<li>キーワードの同義語.json のキーに定義されていないキーワードは全て「同義語展開のないキーワード」であり、通常の文字列の検索と同様、「部分一致」で検索されます。</li>
+<li><a href="#62-行と列の検索文字列の指定方法について">6.2 行と列の検索文字列の指定方法について</a> に述べた通り、例え、エクセルのセルの値が数字であったとしても、「セルの値は、半角・全角の空白を除外し、全角英数字を半角文字列に変換して検索」されますので、各値は空白なしの半角の文字列のリストとして設定してください。</li>
+</ul>
+<h3 id="7-集計くんpro-の実行例">7. 集計くんPro の実行例</h3>
+<p>test_data フォルダにデモ用のエクセルファイルを用意しています。そして、これらのエクセルファイルを使用して、集計くんPro が簡単にテストできるよう必要な JSON ファイルを datasets フォルダにセットしています。datasets/処理.json では、集計処理の後に転記処理を実行するようにしています。これらの処理では、3グループの予算の集計と固定資産の転記を以下のように実行します。</p>
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">./集計くんPro_01.exe</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 が起動されました。</span>
+<span style="color: #ABB2BF">集計くんPro バージョン0.1 は無期限で使用可能です。　⇒ これはライセンスにより異なる</span>
+<span style="color: #ABB2BF">ファイル構成.json ファイルは正常に処理されました。</span>
+<span style="color: #ABB2BF">キーワード.json ファイルは正常に処理されました。</span>
+<span style="color: #ABB2BF">キーワードの同義語.json ファイルは正常に処理されました。</span>
+<span style="color: #ABB2BF">処理.json ファイルは正常であることが確認されました。</span>
+<span style="color: #ABB2BF">集計処理.json ファイルは正常であることが確認されました。</span>
+<span style="color: #ABB2BF">「集計_経費A」の集計処理を開始しました。</span>
+<span style="color: #ABB2BF">「集計_経費B」の集計処理を開始しました。</span>
+<span style="color: #ABB2BF">「集計_経費C」の集計処理を開始しました。</span>
+<span style="color: #ABB2BF">転記処理.json ファイルは正常であることが確認されました。</span>
+<span style="color: #ABB2BF">「除却の転記」の転記処理を開始しました。</span>
+<span style="color: #ABB2BF">「取得の転記」の転記処理を開始しました。</span>
+</code></pre></div>
+<h4 id="71-集計・転記元データ">7.1 集計・転記元データ</h4>
+<h4 id="711-行データで与えられたグループaおよびグループb">7.1.1 行データで与えられたグループAおよびグループB</h4>
+<p>グループA およびグループB の研究開発予算と固定資産は、どちらも下記のような行データで与えられています。</p>
+<ul>
+<li>グループA およびグループB の 4月から翌年 3月の研究開発予算のシートは、月ごとの行データであり、集計したい経費は経費A と経費B に分かれています。</li>
+<li>グループA およびグループB の 4月から翌年 3月の固定資産の取得や除却がある場合にはその月の行データとして書かれていて、取得と除却を分けて転記します。</li>
+<li>集計を列の特定を意図的に困難にするため、妨害列を入れています。</li>
+</ul>
+<h5 id="711a-集計・転記元_行データxlsx-のグループaシート">7.1.1(A) 集計・転記元_行データ.xlsx のグループAシート</h5>
+<p><img alt="集計・転記元_行データ.xlsx のグループAシート" src="./images/集計元_グループA.jpg" /></p>
+<h5 id="711b-集計・転記元_行データxlsx-のグループbシート">7.1.1(B) 集計・転記元_行データ.xlsx のグループBシート</h5>
+<p><img alt="集計・転記元_行データ.xlsx のグループBシート" src="./images/集計元_グループB.jpg" /></p>
+<h4 id="712-列データで与えられたグループc">7.1.2 列データで与えられたグループC</h4>
+<p>グループC の研究開発予算は列データで与えられ、固定資産は、行データで与えられています。</p>
+<p><img alt="集計・転記元_列データ.xlsx のグループBシート" src="./images/集計元_グループC.jpg" /></p>
+<h4 id="713-集計先xlsx">7.1.3 集計先.xlsx</h4>
+<p>集計先.xlsx の 4月から翌年3月の期間のセルは集計前は空欄ですが、本集計により、各グループA～Cの研究開発予算が、経費A～C に分類して集計されています。</p>
+<p><img alt="集計後の集計先.xlsx" src="./images/集計後.jpg" /></p>
+<h4 id="714-転記先xlsx">7.1.4 転記先.xlsx</h4>
+<p>転記前の転記先.xlsx は、取得/除却の別やテーブルの項目のみ与えられています。</p>
+<p><img alt="転記前の転記先.xlsx" src="./images/転記先_原紙.jpg" /></p>
+<p>転記後は、各グルプの固定資に関する項目が、適宜行追加されながら転記されています。</p>
+<p><img alt="転記後の転記先.xlsx" src="./images/転記後.jpg" /></p>
+<h4 id="72-集計くんpro-による集計例の詳細">7.2 集計くんPro による集計例の詳細</h4>
+<p>具体的な集計処理の内容は、datasets/集計処理.json をご覧頂きながら、以下の解説をお読みください。</p>
+<ul>
+<li>経費A,B,C ごとに、3種類の集計処理に分割して処理されていて、経費A,Bは 1ファイル2シートの処理を、経費C は 1ファイル1シートの処理を行います。</li>
+<li>"演算"を指定しないことによりデフォルト"+"（該当セルを加算）を使用しています。</li>
+<li>グループA およびグループB のシートでは、余計な行を特定しないよう、処理する行をあらかじめ絞り込んでいます。この指定により、固定資産の項目に記述された「月」の行は対象から外されます。<ul>
+<li>"集計元開始行": ["研究開発費"]</li>
+<li>"集計元終了行": ["2026年度年間合計"]</li>
+</ul>
+</li>
+<li>妨害列の影響を除去するため、下記のように"^妨害列"を入れています。<ul>
+<li>"集計元列": ["経費A", "月別計", "^妨害列"] ⇒ この正確な意味は、"経費A"という文字列が部分一致で入っていて、かつ"月別計"という文字列が部分一致で入っていて、かつ"妨害列"という文字列が部分一致で入っていないということになります。</li>
+</ul>
+</li>
+<li>各月をまとめて指定するため ["月_キーワード"] と設定し、キーワード展開とキーワード同義語展開を行っています（詳しくは、datasets/キーワード.json および datasets/キーワードの同義語.json を参照してください）。この処理により、"4月" は ["4", "4.0", "4月度", "4月予算", "4月\n（当初予算）"] の全ての項目と同じ意味であると解釈されますので、グループ間の書き方の相違を吸収できます。</li>
+<li>グループC のシートでは、余計な列を特定しないよう、処理する列をあらかじめ絞り込んでいます。この指定により、「妨害テーブル」の列は対象から外されます。<ul>
+<li>"集計先終了列": ["備考"]</li>
+</ul>
+</li>
+</ul>
+<h4 id="73-集計くんpro-による転記例の詳細">7.3 集計くんPro による転記例の詳細</h4>
+<p>具体的な集計処理の内容は、datasets/転記処理.json をご覧頂きながら、以下の解説をお読みください。</p>
+<ul>
+<li>除却と取得に分割して処理されていて、どちらも 3ファイル3シートの処理を行います。</li>
+<li>"演算": ["転記"] により「転記」であることを示しています。</li>
+<li>"集計元開始行": "固定資産" を指定することにより、処理する行をあらかじめ"固定資産"がある行以降に絞り込んでいます。</li>
+<li>"個別転記項目1" および "個別転記項目2" は各シート固有の転記文字列であり、"転記元列リスト" で "key:個別転記項目1", "key:個別転記項目2" のように使用されます。</li>
+<li>"集計元行"では、キーワード展開とキーワード同義語展開に加え、「取得」と「除却」を区別するため下記のような設定を行っています。<ul>
+<li>"集計元行": ["月_キーワード", "^取得", "除却"] ⇒ この正確な意味は、["4", "4.0", "4月度", "4月予算", "4月\n（当初予算）"]のどれかが完全一致で入っていて、"取得"という文字列が部分一致で入っておらず、"除却"という文字列が部分一致で入っている行ということになります。</li>
+</ul>
+</li>
+<li>"転記元列リスト" と "転記先列リスト"で、どの転記元列のデータを、どの転記先列に転記するかを指定します。"B列"や"E列"は、適当なキーワードがないため列記号を直接指定しています。「月」などの短い文字列の場合には直接指定の方が無難です。<ul>
+<li>"転記元列リスト": ["B列", "C列", "資産名称", "key:個別転記項目1", "key:個別転記項目2"]</li>
+<li>"転記先列リスト": ["年度", "E列", "設備名称", "部署", "グループ名称"]</li>
+</ul>
+</li>
+<li>"集計元不明セルを無視": true この設定により、"固定資産"の項目が全く設定されていなくても、警告のみ出力して処理は継続されます。ただし、この例では、どの処理も"固定資産"の項目が全くないケースはないので設定しなくても問題はありません。</li>
+<li>下記の設定により、"【除却】"がある行の2行下から転記を開始します。<ul>
+<li>"集計先行": ["【除却】"],</li>
+<li>"集計先行シフト": 2,</li>
+</ul>
+</li>
+<li>「転記先最大行」を超える行がある場合には、一行挿入してから転記します。転記によりシートの行はシフトしますので、転記の場合はシートの下側を先に転記します。このケースでは、「除却の転記」が先になります。<ul>
+<li>"転記先最大行": 12</li>
+</ul>
+</li>
+<li>転記の場合は行がシフトしますので、集計くんPro で転記を実行する度に転記先ファイルの行数は増えて行きます。このため、集計くんPro で転記を実行する前に "test_data/転記先_原紙.xlsx" を "test_data/転記先.xlsx" にコピーしてから実行してください。</li>
+</ul>
+<h3 id="8-更新履歴">8. 更新履歴</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">日付</th>
+<th style="text-align: center;">version</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">2025/11/29</td>
+<td style="text-align: center;">0.1</td>
+<td>新規作成</td>
+</tr>
+<tr>
+<td style="text-align: center;">2026/2/*</td>
+<td style="text-align: center;">1.0</td>
+<td>ブラウザによる GUI 機能の追加</td>
+</tr>
+</tbody>
+</table>
