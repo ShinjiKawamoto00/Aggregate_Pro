@@ -14,7 +14,7 @@ th {
   border-bottom: 2px solid black;  /* thの下だけ2pxに上書き */
 }
 </style>
-<h2 id="表集計および転記ツール（集計くんpro-ver01）取扱説明書">表集計および転記ツール（集計くんPro Ver.0.1）取扱説明書</h2>
+<h2 id="表集計および転記ツール（集計くんpro-ver011）取扱説明書">表集計および転記ツール（集計くんPro Ver.0.1.1）取扱説明書</h2>
 <h3 id="目次">目次</h3>
 <ul>
 <li><a href="#0-用語">0. 用語</a></li>
@@ -112,7 +112,7 @@ th {
 </li>
 </ul>
 <h4 id="22-ネットワーク環境について">2.2 ネットワーク環境について</h4>
-<p>本ツールは環境変数からプロキシ設定を自動取得しますので、自宅（直通）・会社（プロキシ経由）の両環境で動作しますが、プロキシ経由の場合は以下の環境変数の設定が必要です。プロキシサーバ名やポート番号は会社により異なる場合がありますので貴社情報システム部門にお問い合わせください。</p>
+<p>本ツールは、家庭の PC から直接ウェブサイトにアクセスする場合でも、会社の PC から「プロキシ(Proxy)」（中継サーバー）を経由してアクセスする場合でもご使用になれます。静的および動的なプロキシ設定を自動検出しますので、ほとんどのプロキシサーバーに対応していますが、まれに検出できない場合は、下記の通り Windows の環境変数の設定をお試しください。</p>
 <p><strong>環境変数の設定</strong><br><br />
 Windows の検索で「環境変数」と入力し「環境変数を編集」を選択し、ユーザー環境変数に下記の例のように HTTP_PROXY、HTTPS_PROXY を追加してください。会社によって「変数値」が異なる場合がありますので注意してください。</p>
 <ul>
@@ -141,22 +141,32 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 <ul>
 <li>集計くんPro フォルダの構成は以下の通りです。<br />
 <div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">集計くんPro</span>
-<span style="color: #ABB2BF">├─ 集計くんPro_01.exe           # 実行ファイル</span>
-<span style="color: #ABB2BF">├─ README.html                  # 本取扱説明書</span>
+<span style="color: #ABB2BF">├─ 集計くんPro_01.exe            # 実行ファイル</span>
+<span style="color: #ABB2BF">├─ 集計くんPro_集計.bat          # 集計用バッチファイル</span>
+<span style="color: #ABB2BF">├─ 集計くんPro_転記.bat          # 転記用バッチファイル</span>
+<span style="color: #ABB2BF">├─ README.md                    # 本取扱説明書（GitHubのページ または Visual Studio Code などのエディタでご覧ください）</span>
+<span style="color: #ABB2BF">├─ README.html                  # 本取扱説明書（ブラウザでご覧ください）</span>
 <span style="color: #ABB2BF">│  </span>
-<span style="color: #ABB2BF">├─ datasets                     # 実行に必要なJSONファイルを配置するフォルダです</span>
-<span style="color: #ABB2BF">│ ├─ 処理.json                  # 具体的な処理を指示する辞書や処理群のリストを記述するファイルです</span>
-<span style="color: #ABB2BF">│ ├─ ファイル構成.json          # エクセルファイルの配置場所を記述するファイルです</span>
-<span style="color: #ABB2BF">│ ├─ キーワード.json            # 処理の際に検索するキーワードのリストを記述するファイルです</span>
-<span style="color: #ABB2BF">│ └─ キーワードの同義語.json    # キーワードと同じ意味を持つ同義語のリストを記述するファイルです</span>
+<span style="color: #ABB2BF">├─ _internal                    # 集計くんPro_01.exe を動かすための大事な部品フォルダ</span>
+<span style="color: #ABB2BF">│  </span>
+<span style="color: #ABB2BF">├─ datasets                     # 実行に必要なJSONファイルを配置するフォルダ</span>
+<span style="color: #ABB2BF">│ ├─ 処理.json                  # 具体的な処理を指示する辞書や処理群のリストを記述するファイル: ここでは集計処理と転記処理を指示するリストファイル</span>
+<span style="color: #ABB2BF">│ ├─ 集計処理.json               # 集計処理を指示する辞書ファイル</span>
+<span style="color: #ABB2BF">│ ├─ 転記処理.json               # 転記処理を指示する辞書ファイル</span>
+<span style="color: #ABB2BF">│ ├─ ファイル構成.json           # エクセルファイルの配置場所を記述するファイルです</span>
+<span style="color: #ABB2BF">│ ├─ キーワード.json             # 処理の際に検索するキーワードのリストを記述するファイルです</span>
+<span style="color: #ABB2BF">│ └─ キーワードの同義語.json      # キーワードと同じ意味を持つ同義語のリストを記述するファイルです</span>
 <span style="color: #ABB2BF">│   </span>
 <span style="color: #ABB2BF">├─ licenses                     # 実行に必要なライセンスファイルを配置するフォルダです（なければ集計くんPro実行時に作成されます）</span>
 <span style="color: #ABB2BF">│ ├─ license.json.enc           # 暗号化されたライセンスファイルです。失くさないよう注意してください</span>
 <span style="color: #ABB2BF">│ ├─ license.md                 # ライセンス情報を記述したファイルです（英語版）</span>
-<span style="color: #ABB2BF">│ └─ ライセンス.md              # ライセンス情報を記述したファイルです（日本語版）</span>
+<span style="color: #ABB2BF">│ └─ ライセンス.md               # ライセンス情報を記述したファイルです（日本語版）</span>
 <span style="color: #ABB2BF">│</span>
-<span style="color: #ABB2BF">├─ logs                         # 実行ログが出力されます（なければ集計くんPro実行時に作成されます。7日以前のログは自動削除されます）</span>
-<span style="color: #ABB2BF">└─ test_data                    # 本取扱説明書で解説するデモ用のエクセルファイルを配置しているフォルダです</span>
+<span style="color: #ABB2BF">├─ logs                         # 実行ログが出力されます（なければ集計くんPro実行時に作成されます。日毎にまとめられ、7日以前のログは自動削除されます）</span>
+<span style="color: #ABB2BF">│</span>
+<span style="color: #ABB2BF">├─ test_data                    # 本取扱説明書で解説するデモ用のエクセルファイルを配置しているフォルダです</span>
+<span style="color: #ABB2BF">│</span>
+<span style="color: #ABB2BF">└─ images                       # 取扱説明書の画像フォルダ</span>
 </code></pre></div></li>
 </ul>
 <h3 id="4-インストールと実行">4. インストールと実行</h3>
@@ -631,9 +641,14 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 <td>新規作成</td>
 </tr>
 <tr>
+<td style="text-align: center;">2025/12/13</td>
+<td style="text-align: center;">0.1.1</td>
+<td>静的および動的なプロキシ設定を自動検出。<br><a href="#22-ネットワーク環境について">2.2 ネットワーク環境について</a> 参照</td>
+</tr>
+<tr>
 <td style="text-align: center;">2026/2/*</td>
 <td style="text-align: center;">1.0</td>
-<td>ブラウザによる GUI 機能の追加</td>
+<td>ブラウザによる GUI 機能の追加（予定）</td>
 </tr>
 </tbody>
 </table>
