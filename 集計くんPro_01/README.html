@@ -24,10 +24,12 @@ th {
 <li><a href="#22-ネットワーク環境について">2.2 ネットワーク環境について</a></li>
 </ul>
 </li>
-<li><a href="#3-フォルダー構成">3. フォルダー構成</a></li>
-<li><a href="#4-インストールと実行">4. インストールと実行</a><ul>
-<li><a href="#41-リリース物の配置">4.1 リリース物の配置</a></li>
-<li><a href="#42-実行">4.2 実行</a></li>
+<li><a href="#3-フォルダ構成">3. フォルダ構成</a></li>
+<li><a href="#4-ダウンロードと実行">4. ダウンロードと実行</a><ul>
+<li><a href="#41-リリース物のダウンロード">4.1 リリース物のダウンロード</a></li>
+<li><a href="#42-リリース物の配置">4.2 リリース物の配置</a></li>
+<li><a href="#43-実行">4.3 実行</a></li>
+<li><a href="#44-windows-の-smartscreen-の警告を解除する方法">4.4 Windows の SmartScreen の警告を解除する方法</a></li>
 </ul>
 </li>
 <li><a href="#5-ライセンスについて">5. ライセンスについて</a><ul>
@@ -137,7 +139,7 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 - プロキシサーバ名 <code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;">proxy.company.co.jp</code> は会社によって異なる場合があります<br />
 - ポート番号（8080）も会社により異なる場合があります<br />
 - <strong>プロキシサーバ名・ポート番号、認証ユーザー・パスワードの有無等の情報は、貴社情報システム部門にお問い合わせください</strong></p>
-<h3 id="3-フォルダー構成">3. フォルダー構成</h3>
+<h3 id="3-フォルダ構成">3. フォルダ構成</h3>
 <ul>
 <li>集計くんPro フォルダの構成は以下の通りです。<br />
 <div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">集計くんPro</span>
@@ -169,11 +171,29 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 <span style="color: #ABB2BF">└─ images                       # 取扱説明書の画像フォルダ</span>
 </code></pre></div></li>
 </ul>
-<h3 id="4-インストールと実行">4. インストールと実行</h3>
-<h4 id="41-リリース物の配置">4.1 リリース物の配置</h4>
-<p>集計くんPro フォルダーを Windows PC 上の任意の場所に配置してください。</p>
-<h4 id="42-実行">4.2 実行</h4>
-<p>Windows PowerShell で集計くんProフォルダーに移動して下記コマンドで実行してください。なお、集計くんPro を実行する際、集計先ファイルや転記先ファイルをエクセルで開いていると動作は保証されません。必ずこれらのファイルを閉じてから実行してください。</p>
+<h3 id="4-ダウンロードと実行">4. ダウンロードと実行</h3>
+<h4 id="41-リリース物のダウンロード">4.1 リリース物のダウンロード</h4>
+<p>git コマンドを使用してダウンロードする方法と、GitHub の <a href="https://github.com/ShinjiKawamoto00/Aggregate_Pro">表集計および転記ツールのご案内</a> ページにある「code」ボタンの「Download ZIP」をクリックしてダウンロードする方法があります。</p>
+<p>GitHub のページからダウンロードした場合は、　Windows の SmartScreen の警告が出ることがありますので、<a href="#44-windows-の-smartscreen-の警告を解除する方法">4.4 Windows の SmartScreen の警告を解除する方法</a> を参考に、警告が出ないよいうにしてご使用ください。</p>
+<ul>
+<li>
+<p>git コマンドによるダウンロード</p>
+<ul>
+<li>
+<p><a href="https://git-scm.com/download/win">Git for Windows の Git公式サイト</a> から最新のインストーラーをダウンロードし、インストールしてください。初回使用時は、<a href="https://qiita.com/takeru-hirai/items/4fbe6593d42f9a844b1c">Gitのインストール方法(Windows版)</a> を参考にしてユーザー情報を設定してください。</p>
+</li>
+<li>
+<p>下記コマンドでダウンロードし、その中にある「集計くんPro_01」フォルダをご使用ください。<br />
+<div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">git clone https://github.com/ShinjiKawamoto00/Aggregate_Pro</span>
+</code></pre></div></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="42-リリース物の配置">4.2 リリース物の配置</h4>
+<p>「集計くんPro_01」フォルダを Windows PC 上の任意の場所に配置してください。</p>
+<h4 id="43-実行">4.3 実行</h4>
+<p>Windows PowerShell で集計くんProフォルダに移動して下記コマンドで実行してください。なお、集計くんPro を実行する際、集計先ファイルや転記先ファイルをエクセルで開いていると動作は保証されません。必ずこれらのファイルを閉じてから実行してください。</p>
 <ul>
 <li>処理.json を使用して起動する場合（処理.json には集計処理後に転記処理を実行するよう設定しています）<br />
 <div class="highlight" style="background: #282C34"><pre style="line-height: 125%;"><span></span><code style="line-height: 1.5; letter-spacing: 0.5px; font-size: 14px;"><span style="color: #ABB2BF">.\集計くんPro_01.exe</span>
@@ -185,6 +205,12 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 <li>集計くんPro_集計.bat や 集計くんPro_転記.bat などのバッチファイルをダブルクリックすれば、それぞれ集計処理や転記処理のみ実行し、終了後に窓が閉じる際に何かのキーを押すまで待ってくれます。</li>
 <li>これらのバッチファイルを参考にして処理ファイルを指定したバッチファイルを作成できますが、文字化けしないようバッチファイルは必ず Shift JIS で保存してください。</li>
 </ul>
+<h4 id="44-windows-の-smartscreen-の警告を解除する方法">4.4 Windows の SmartScreen の警告を解除する方法</h4>
+<p>Gitコマンドを使わずダウンロードした場合、.exeや.batファイルを実行すると「このファイルは安全ではない可能性があります」という警告が出ることがあります。これはソフトウェアにデジタル証明書が適用されていないためで、Windows の SmartScreen がセキュリティチェックを行っているからです。</p>
+<p>デジタル証明書は認証局の審査で信頼性を示しますが、金銭で取得可能で運用ミスも起きやすく、証明書付きでもマルウェアは存在し、安全の絶対保証ではありません。</p>
+<p>本アプリケーションはコンピューターに害を及ぼすマルウェアではありません。警告を無視してご使用頂くことも可能ですが、信頼してダウンロードされた方々の不安を解消するため、以下の方法で SmartScreen の警告を解除してください。​</p>
+<p><strong>警告解除方法</strong><br />
+- .bat または .exe ファイルを右クリックし、「プロパティ」を選択します。「全般」タブの下部にある「セキュリティ」セクションで「このコンピュータを保護するため、このファイルへのアクセスはブロックされる可能性があります」の横にある「許可する」にチェックを入れ、「OK」をクリックしてください。</p>
 <h3 id="5-ライセンスについて">5. ライセンスについて</h3>
 <h4 id="51-評価版ライセンス">5.1 評価版ライセンス</h4>
 <ul>
@@ -234,7 +260,7 @@ Windows の検索で「環境変数」と入力し「環境変数を編集」を
 </li>
 </ul>
 <h4 id="61-入力json">6.1 入力JSON</h4>
-<p><a href="#3-フォルダー構成">3. フォルダー構成</a> に記述の通り、入力JSON は datasets フォルダ配下に設置し、ファイル場所の指定、処理の指定などを行います。</p>
+<p><a href="#3-フォルダ構成">3. フォルダ構成</a> に記述の通り、入力JSON は datasets フォルダ配下に設置し、ファイル場所の指定、処理の指定などを行います。</p>
 <h5 id="611-ファイル構成json">6.1.1 ファイル構成.json</h5>
 <ul>
 <li>「集計元」および「集計先」のエクセルファイルの配置場所を、集計くんPro_01.exe を配置した場所からの相対パスまたは絶対パスで記述する辞書型の JSON ファイルです。<ul>
