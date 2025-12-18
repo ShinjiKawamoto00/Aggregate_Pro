@@ -7,6 +7,6 @@ ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings()
 
 session = PACSession()
-resp = session.get('https://astrology.neoluxuk.com/WorkCheck/')
+resp = session.get('https://payment.neoluxinc.com/')
 print(f"resp.status_code:{resp.status_code}")
 print(f"resp.text[:100]:{resp.text[:100]}")
