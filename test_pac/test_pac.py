@@ -8,9 +8,9 @@ if sys.platform == "win32":
         import certifi_win32
         # 仮想PEMパス返却
         os.environ['REQUESTS_CA_BUNDLE'] = certifi_win32.wincerts.where()
-        print("✅ python-certifi-win32初期化完了（Windows証明書ストア使用）")
+        print("python-certifi-win32 initialize complete - Using Windows Certificate Store!")
     except ImportError:
-        print("⚠️ python-certifi-win32未インストール。通常certifi使用")
+        print("python-certifi-win32 error!")
         sys.exit()
 
 try:
