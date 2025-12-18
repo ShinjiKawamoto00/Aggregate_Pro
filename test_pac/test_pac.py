@@ -1,9 +1,12 @@
+import ssl
+import urllib3
 from pypac import PACSession
 
-try:
-    session = PACSession(verify=False)  # SSL証明書検証無効
-    resp = session.get('https://astrology.neoluxuk.com/WorkCheck/')
-    print(f"resp.status_code:{resp.status_code}")
-    print(f"resp.text[:100]:{resp.text[:100]}")
-except Exception as e:
-    print("失敗:", e)
+# グローバルSSL検証無効
+ssl._create_default_https_context = ssl._create_unverified_context
+urllib3.disable_warnings()
+
+session = PACSession()
+resp = session.get('https://astrology.neoluxuk.com/WorkCheck/')
+print(f"resp.status_code:{resp.status_code}")
+print(f"resp.text[:100]:{resp.text[:100]}")
