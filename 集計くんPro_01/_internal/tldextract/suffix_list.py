@@ -1,7 +1,5 @@
 """tldextract helpers for testing and fetching remote resources."""
 
-from __future__ import annotations
-
 import logging
 import pkgutil
 import re
@@ -9,7 +7,7 @@ from collections.abc import Sequence
 from typing import cast
 
 import requests
-from requests_file import FileAdapter  # type: ignore[import-untyped]
+from requests_file import FileAdapter
 
 from .cache import DiskCache
 
